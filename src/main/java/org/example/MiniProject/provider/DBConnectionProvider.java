@@ -1,5 +1,6 @@
 package org.example.MiniProject.provider;
 
+import com.mysql.cj.jdbc.Driver;
 import lombok.SneakyThrows;
 
 import java.io.FileInputStream;
@@ -10,7 +11,7 @@ import java.util.Properties;
 public class DBConnectionProvider {
 
 
-    private static DBConnectionProvider instance = new DBConnectionProvider();
+    private  static  volatile DBConnectionProvider instance = new DBConnectionProvider();
 
     private String driverName;
     private String dbUrl;
