@@ -1,10 +1,9 @@
 package org.example.MiniProject;
 
-import org.example.MiniProject.enums.Gender;
+import org.example.MiniProject.manager.ArticleManager;
 import org.example.MiniProject.manager.UserManager;
+import org.example.MiniProject.models.Article;
 import org.example.MiniProject.models.User;
-
-import java.util.List;
 
 public class Main {
 
@@ -38,5 +37,11 @@ public class Main {
         poxos.setAge(81);
 //
         System.out.println(userManager.update(4, poxos));
+        ArticleManager articleManager = new ArticleManager();
+        articleManager.save(Article.builder()
+                .content("This is a our second article  created by Petros")
+                .title("Article 2 by Petros")
+                .userId(5)
+                .build());
     }
 }
