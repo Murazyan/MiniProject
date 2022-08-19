@@ -8,7 +8,11 @@ import org.example.MiniProject.models.User;
 public class Main {
 
     public static void main(String[] args) {
-        UserManager userManager = new UserManager();
+        Application application = new Application();
+        application.start();
+
+
+//        UserManager userManager = new UserManager();
 //        User poxos = userManager.save(User.builder()
 //                .name("Poxos")
 //                .surname("Poxosyan")
@@ -33,15 +37,15 @@ public class Main {
 
 //        boolean isDelete = userManager.deleteById(7);
 //        System.out.println(isDelete);
-        User poxos = userManager.getByEmailAndPassword("poxos@gmail.com", "123456");
-        poxos.setAge(81);
+//        User poxos = userManager.getByEmailAndPassword("poxos@gmail.com", "123456");
+//        poxos.setAge(81);
 //
-        System.out.println(userManager.update(4, poxos));
-        ArticleManager articleManager = new ArticleManager();
-        articleManager.save(Article.builder()
-                .content("This is a our second article  created by Petros")
-                .title("Article 2 by Petros")
-                .userId(5)
-                .build());
+//        System.out.println(userManager.update(4, poxos));
+//        ArticleManager articleManager = new ArticleManager();
+//        articleManager.save(Article.builder()
+//                .content("This is a our second article  created by Petros")
+//                .title("Article 2 by Petros")
+//                .userId(5)
+//                .build());
     }
 }

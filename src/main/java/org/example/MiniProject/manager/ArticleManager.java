@@ -1,7 +1,6 @@
 package org.example.MiniProject.manager;
 
 import lombok.SneakyThrows;
-import org.example.MiniProject.enums.Gender;
 import org.example.MiniProject.models.Article;
 import org.example.MiniProject.models.User;
 import org.example.MiniProject.provider.DBConnectionProvider;
@@ -18,7 +17,7 @@ public class ArticleManager {
 
     Logger logger = Logger.getLogger(UserManager.class.getName());
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
-
+    private final CommentManager commentManager = new CommentManager();
     @SneakyThrows
     public Article save(Article article) {
         String sql = "insert into articles " +
@@ -37,8 +36,6 @@ public class ArticleManager {
         article.setId(userId);
         return article;
     }
-
-
 
 
     @SneakyThrows
@@ -62,4 +59,23 @@ public class ArticleManager {
         return articles;
     }
 
+    @SneakyThrows
+    public List<Article> all() {
+        List<Article> articles = new ArrayList<>();
+        String sql = "select a.*, u.name, u.surname, u.email from articles a " +
+                "inner join users u on a.user_id = u.id";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            Article article = Article.builder()
+                    .id(resultSet.getInt("id"))
+                    .title(resultSet.getString("title"))
+                    .content(resultSet.getString("content"))
+                    .userId(resultSet.getInt("user_id"))
+                    .build();
+            article.setComments(commentManager.commentsByArticle(article));
+            articles.add(article);
+        }
+        return articles;
+    }
 }

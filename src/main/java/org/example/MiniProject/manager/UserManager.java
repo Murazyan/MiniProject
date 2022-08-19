@@ -127,4 +127,37 @@ public class UserManager {
         int i = preparedStatement.executeUpdate();
         return i > 0;
     }
+
+
+    @SneakyThrows
+    public boolean existByEmail(String email){
+        PreparedStatement statement = connection.prepareStatement("SELECT EXISTS(SELECT * FROM users WHERE email=?) AS exist");
+        statement.setString(1, email);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getBoolean("exist");
+    }
+
+    @SneakyThrows
+    public User getByEmail(String email) {
+        User user = null;
+        String query = "select * from users where email = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            user = User.builder()
+                    .id(resultSet.getInt("id"))
+                    .name(resultSet.getString("name"))
+                    .surname(resultSet.getString("surname"))
+                    .email(email)
+                    .password(resultSet.getString("password"))
+                    .avatar(resultSet.getString("avatar"))
+                    .phoneNumber(resultSet.getString("phone_number"))
+                    .gender(Gender.valueOf(resultSet.getString("gender")))
+                    .age(resultSet.getInt("age"))
+                    .build();
+        }
+        return user;
+    }
 }
